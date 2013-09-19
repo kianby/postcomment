@@ -1,0 +1,42 @@
+#! /bin/bash
+
+### BEGIN INIT INFO
+# Provides:          postcomment
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Should-Start:      $all
+# Should-Stop:       $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop postcomment
+# Description:       Start/stop postcomment
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+. /lib/lsb/init-functions
+
+if [ "$#" -ne 1 ]; then
+    log_failure_msg "Usage: /etc/init.d/postcomment" \
+                    "{start|stop}"
+    exit 2
+fi
+
+case "$1" in
+  start)
+        python /srv/postcomment/postcomment.py start 
+        exit $?
+        ;;
+  stop)
+        python /srv/postcomment/postcomment.py stop
+        exit $?
+        ;;
+  *)
+        log_failure_msg "Usage: /etc/init.d/postcomment" \
+                        "{start|stop}"
+        exit 2
+        ;;
+esac
+
+log_failure_msg "Unexpected failure, please file a bug."
+exit 1
