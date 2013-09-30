@@ -74,7 +74,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         # Create the container (outer) email message.
         msg = MIMEMultipart()
-        msg['Subject'] = 'Nouveau commentaire' + '' if captcha else ' [SPAM]'
+        msg['Subject'] = 'Nouveau commentaire'
+        if not captcha:
+           msg['Subject'] = msg['Subject'] +  ' [SPAM]'
         msg['From'] = EMAIL_FROM
         msg['To'] = EMAIL_TO
         msg.preamble = 'Nouveau commentaire'
